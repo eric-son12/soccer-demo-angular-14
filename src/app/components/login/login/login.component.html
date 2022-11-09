@@ -1,0 +1,23 @@
+<div>
+    <h2>Login Form</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input formControlName="userName" matInput placeholder="Username" />
+            <mat-hint>{{this.loginForm.get('userName')?.errors | json}}</mat-hint>
+          </mat-form-field>
+      </p>
+      <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="passWord" matInput type="password" placeholder="Password" />
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <mat-hint>{{this.loginForm.get('passWord')?.errors | json}}</mat-hint>
+          </mat-form-field>
+      </p>
+      <button mat-raised-button color="primary">Login</button>
+    </form>  
+    <p>{{loginForm.value | json}}</p>
+  </div>
+  

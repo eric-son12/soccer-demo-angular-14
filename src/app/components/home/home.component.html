@@ -1,0 +1,166 @@
+<div class="divider-line">
+    <h2 class="title-decor">Features <span>Match</span></h2>
+    <p class="sologan">Read more ></p>
+</div>
+
+<div class="container-feature">
+    <div class="card" *ngFor="let item of listsFeature">
+        <div class="card-feature">
+            <div class="home-card">
+                <img [src]="item?.home?.logo" alt="">
+                <p>{{item?.home?.name}}</p>
+            </div>
+            <div class="scores">
+                <ng-container *ngIf="item?.match_status === 'live';else notStart">
+                    <h4>{{item?.scores?.home + ' ' + item?.scores?.away}}</h4>
+                </ng-container>
+                <ng-template #notStart>
+                    <h4>{{parseDateTime(item?.timestamp)}}</h4>
+                </ng-template>
+            </div>
+            <div class="away-card">
+                <img [src]="item?.away?.logo" alt="">
+                <p>{{item?.away?.name}}</p>
+            </div>
+            <div class="tournament-card">
+                <p>{{item?.tournament?.name}}</p>
+            </div>
+        </div>
+        <div class="action-card card-flex">
+            <p>{{item?.commentators != null ? item?.commentators[0]?.name : ''}}</p>
+            <div class="btn-bar">
+                <button mat-raised-button color="primary" (click)="handleBtn()">Live</button>
+                <button mat-raised-button color="primary" (click)="getMatchByDate()">Line up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider-line">
+    <h2 class="title-decor">Calendar <span>Matches</span></h2>
+    <p class="sologan">Read more ></p>
+</div>
+
+<div class="container-feature-calender">
+    <mat-tab-group [selectedIndex]="1" (selectedTabChange)="handleChangeTab($event)" class="filter-menu">
+        <ng-container *ngFor="let date of labelDate">
+            <mat-tab [label]="date | uppercase"> 
+                <ng-container *ngFor="let list of listsMatchLiveFilter; index as i">
+                    <ng-container *ngIf="isLoadMoreMatch;else notLoadMore">
+                        <div class="tournament-bar" (click)="isCollapseTournament = !isCollapseTournament">
+                            <img [src]="list[1][0]?.tournament?.logo" alt="">
+                            <span>{{list[0]}}</span>
+                        </div>
+                        <ng-container *ngIf="isCollapseTournament">
+                            <div *ngFor="let item of list[1]" class="card-match" >
+                                <div class="status-match">
+                                    <p style="color: #f23849" *ngIf="item?.match_status == 'finished'">Finished</p>
+                                    <p [ngClass]="{'live-txt': item?.match_status == 'live'}">{{item?.match_status == 'live' ? 'live' : parseDateTime(item?.timestamp)}}</p>
+                                    <p class="time-live" *ngIf="item?.match_status != 'finished' && item?.time_str">{{item.time_str}}</p>
+                                </div>
+                                <div class="match-info">
+                                    <div class="home-info">
+                                        <div class="team-info">
+                                            <img [src]="item?.home?.logo" alt="">
+                                            <span>{{item?.home?.name}}</span>
+                                        </div>
+                                        <span>{{item?.match_status === 'live' || item?.match_status === 'finished' ? item?.scores?.home : '-'}}</span>
+                                    </div>
+                                    <div class="away-info">
+                                        <div class="team-info">
+                                            <img [src]="item?.away?.logo" alt="">
+                                            <span>{{item?.away?.name}}</span>
+                                        </div>
+                                        <span>{{item?.match_status === 'live' || item?.match_status === 'finished' ? item?.scores?.away : '-'}}</span>
+                                    </div>
+                                </div>
+                                <div class="action-live-match">
+                                    <button mat-raised-button color="primary" (click)="isShowMatch = !isShowMatch">Live</button>
+                                    <button mat-raised-button color="secondary" (click)="sortMatchByTournament()">Line up</button>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #notLoadMore>
+                        <ng-container *ngIf="i < 5">
+                            <div class="tournament-bar" (click)="isCollapseTournament = !isCollapseTournament">
+                                <img [src]="list[1][0]?.tournament?.logo" alt="">
+                                <span>{{list[0]}}</span>
+                            </div>
+                            <ng-container *ngIf="isCollapseTournament">
+                                <div *ngFor="let item of list[1]" class="card-match" >
+                                    <div class="status-match">
+                                        <p style="color: #f23849" *ngIf="item?.match_status == 'finished'">Finished</p>
+                                        <p [ngClass]="{'live-txt': item?.match_status == 'live'}">{{item?.match_status == 'live' ? 'live' : parseDateTime(item?.timestamp)}}</p>
+                                        <p class="time-live" *ngIf="item?.match_status != 'finished' && item?.time_str">{{item.time_str}}</p>
+                                    </div>
+                                    <div class="match-info">
+                                        <div class="home-info">
+                                            <div class="team-info">
+                                                <img [src]="item?.home?.logo" alt="">
+                                                <span>{{item?.home?.name}}</span>
+                                            </div>
+                                            <span>{{item?.match_status === 'live' || item?.match_status === 'finished' ? item?.scores?.home : '-'}}</span>
+                                        </div>
+                                        <div class="away-info">
+                                            <div class="team-info">
+                                                <img [src]="item?.away?.logo" alt="">
+                                                <span>{{item?.away?.name}}</span>
+                                            </div>
+                                            <span>{{item?.match_status === 'live' || item?.match_status === 'finished' ? item?.scores?.away : '-'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="action-live-match">
+                                        <button mat-raised-button color="primary" (click)="isShowMatch = !isShowMatch">Live</button>
+                                        <button mat-raised-button color="secondary" (click)="sortMatchByTournament()">Line up</button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-template>
+                </ng-container>
+                <div class="show-more-bar" *ngIf="this.listsMatchLiveFilter.length > 10">
+                    <button *ngIf="!isLoadMoreMatch" mat-button color="accent" (click)="isLoadMoreMatch = !isLoadMoreMatch">Load more...</button>
+                    <button *ngIf="isLoadMoreMatch" mat-button color="accent" (click)="isLoadMoreMatch = !isLoadMoreMatch">Load less...</button>
+                </div>
+            </mat-tab>
+        </ng-container>
+      </mat-tab-group>
+</div>
+
+<!-- <div>
+    <iframe src="https://widget.vebo.dev/live-tracker/4jwq2ghzzev7m0v" frameborder="0" width="700" height="500"></iframe>
+</div> -->
+
+
+<div class="divider-line">
+    <h2 class="title-decor">Features <span>Match</span></h2>
+    <p class="sologan">Read more ></p>
+</div>
+
+<section class="deep-section">
+    <div class="mask"></div>
+    <img class="testimonials-effect" src="../../../assets/bg-testimonials.svg" alt="">
+    <div class="container-content">
+        <p>“Phasellus vestibulum nec dolor quis varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus gravida magna sit amet euismod lacinia. Lorem ipsum dolor sit amet, consectetur adipiscing elit”</p>
+    </div>
+</section>
+
+<div class="divider-line">
+    <h2 class="title-decor">Latest <span>News</span></h2>
+    <p class="sologan" [routerLink]="['/news']">Read more ></p>
+</div>
+
+<div class="container-feature-new">
+    <div class="card-news" *ngFor="let item of listsLatestNews" [routerLink]="['/news/' + item.slug]"[state]="{id: item.id}">
+        <img [src]="item?.feature_image" alt="">
+        <div class="info-news">
+            <div class="date-create">
+                <mat-icon>event_note</mat-icon>
+                {{handleFormatDateNews(item?.created_at)}}
+            </div>
+            <h4 class="title">{{item?.name}}</h4>
+            <p class="description">{{item?.description}}</p>
+        </div>
+    </div>
+</div>

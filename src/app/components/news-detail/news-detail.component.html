@@ -1,0 +1,45 @@
+<div class="divider-line">
+    <h2 class="title-decor">{{detailData.name}}</h2>
+    <p class="sologan"></p>
+</div>
+
+<div class="news-content" [innerHtml]="detailData.content">
+</div>
+
+<div class="divider-line">
+    <h2 class="title-decor">Related <span>News</span></h2>
+    <p class="sologan">Read more ></p>
+</div>
+
+<div class="container-feature-new">
+    <div class="card-news" (click)="getNews(item.id)" *ngFor="let item of listsRelateNews" [routerLink]="['/news/'+item.slug]">
+        <img [src]="item?.feature_image" alt="">
+        <div class="info-news">
+            <div class="date-create">
+                <mat-icon>event_note</mat-icon>
+                {{handleFormatDateNews(item?.created_at)}}
+            </div>
+            <h4 class="title">{{item?.name}}</h4>
+            <p class="description">{{item?.description}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="divider-line">
+    <h2 class="title-decor">Hot <span>News</span></h2>
+    <p class="sologan">Read more ></p>
+</div>
+
+<div class="container-feature-new card-news-detail">
+    <div class="card-news" (click)="getNews(item.id)" *ngFor="let item of listsLatestNews" [routerLink]="['/news/'+item.slug]">
+        <img [src]="item?.feature_image" alt="">
+        <div class="info-news">
+            <div class="date-create">
+                <mat-icon>event_note</mat-icon>
+                {{handleFormatDateNews(item?.created_at)}}
+            </div>
+            <h4 class="title">{{item?.name}}</h4>
+            <p class="description">{{item?.description}}</p>
+        </div>
+    </div>
+</div>

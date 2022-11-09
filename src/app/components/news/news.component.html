@@ -1,0 +1,29 @@
+<div class="divider-line">
+    <h2 class="title-decor">Related <span>News</span></h2>
+    <p class="sologan"></p>
+</div>
+
+<div class="card-news-hightlight" [routerLink]="['/news/'+listsHightLight?.slug]">
+    <img [src]="listsHightLight?.feature_image" alt="">
+    <div class="info-news">
+        <div class="date-create">
+            <mat-icon>event_note</mat-icon>
+            {{handleFormatDateNews(listsHightLight.created_at)}}
+        </div>
+        <h4 class="title">{{listsHightLight.name}}</h4>
+        <p class="description">{{listsHightLight.description}}</p>
+    </div>
+</div>
+<div class="container-feature-new">
+    <div class="card-news" *ngFor="let item of listsNews" [routerLink]="['/news/'+item?.slug]">
+        <img [src]="item?.feature_image" alt="">
+        <div class="info-news">
+            <div class="date-create">
+                <mat-icon>event_note</mat-icon>
+                {{handleFormatDateNews(item?.created_at)}}
+            </div>
+            <h4 class="title">{{item?.name}}</h4>
+            <p class="description">{{item?.description}}</p>
+        </div>
+    </div>
+</div>

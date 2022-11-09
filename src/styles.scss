@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-tab-group {
+    &.filter-menu {
+        .mat-tab-header {
+            background: #272a31;
+            color: #fff;
+            border-top: 1px solid #f23849;
+            border-top: 1px solid #f23849;
+            border-left: 1px solid #3c3e4a;
+            border-right: 1px solid #3c3e4a;
+            .mat-tab-label {
+                color: #fff;
+                &.mat-tab-label-active {
+                    color: #ffc722 !important;
+                    opacity: 1 !important;
+                }
+                &:first-of-type {
+                    .mat-tab-label-content {
+                        width: 50px;
+                        line-height: 1;
+                        padding: 4px 6px;
+                        border-radius: 1rem;
+                        background: #f2152d;
+                        color: #fff;
+                        text-transform: uppercase;
+                        box-shadow: 0 0 20px rgb(251 8 64 / 50%);
+                    }
+                }
+            }
+        }
+    }
+}
