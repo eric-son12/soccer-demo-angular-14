@@ -4,7 +4,10 @@ import { MatchService } from 'src/app/services/match.service';
 import * as _ from 'lodash';
 // import { Parser } from 'm3u8-parser';
 // import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+declare var videojs: any;
+import 'video.js/dist/video-js.css'
+import 'videojs-contrib-quality-levels';
+// import videojsqualityselector from 'videojs-hls-quality-selector';
 export interface DialogData {
   animal: string;
   name: string;
@@ -25,6 +28,24 @@ export class HomeComponent implements OnInit {
   public isShowMatch: boolean = false;
   public isCollapseTournament: boolean = true;
   public labelDate: Array<string> = ['live'];
+  public videoJsConfigObj = {
+    preload: "metadata",
+    controls: true,
+    autoplay: true,
+    overrideNative: true,
+    techOrder: ["html5", "flash"],
+    html5: {
+        nativeVideoTracks: false,
+        nativeAudioTracks: false,
+        nativeTextTracks: false,
+        hls: {
+            withCredentials: false,
+            overrideNative: true,
+            debug: true
+        }
+    },
+    
+};
   constructor(
     private matchService: MatchService,
     private sanitizer: Sanitizer
@@ -35,6 +56,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getInitationData();
+    var player = videojs('my-video', this.videoJsConfigObj);
+    // player.hlsQualitySelector = videojsqualityselector;
+    player.hlsQualitySelector();
   }
 
   getDateRange() {
@@ -73,7 +97,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
+  playVideo() {
+    let player = videojs("my_video_1");
+        player.play();
+  }
 
   parseDateTime(timeStamp: any) {
     let date = new Date(timeStamp);
